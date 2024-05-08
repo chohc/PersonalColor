@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- 권한 설정 -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 폰에 카메라 기능 확인 -->
+    <uses-feature android:name="android.hardware.camera2" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PersonalColor"
         tools:targetApi="31">
+        <activity
+            android:name=".BaseActivity"
+            android:exported="false" />
         <activity
             android:name=".Test1Activity"
             android:exported="false" />
