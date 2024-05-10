@@ -19,7 +19,7 @@ abstract class BaseActivity : AppCompatActivity() {
         // Api 버전이 마시멜로 미만이면 권한처리가 필요없다
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             permissionGranted(requestCode)
-        } else {
+        }else {
             // 권한이 없으면 권한 요청 -> 팝업
             ActivityCompat.requestPermissions(this, permissions, requestCode)
         }

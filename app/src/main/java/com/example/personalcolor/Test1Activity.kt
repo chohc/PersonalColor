@@ -1,6 +1,7 @@
 package com.example.personalcolor
 
 import android.Manifest
+
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
@@ -11,10 +12,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.personalcolor.databinding.ActivityMainBinding
@@ -124,8 +128,13 @@ class Test1Activity : BaseActivity() {
     override fun permissionDenied(requestCode: Int) {
         when(requestCode){
             PERM_STORAGE -> {
-                Toast.makeText(this, "공용 저장소 권한을 승인해야 앱을 사용할 수 있습니다.", Toast.LENGTH_SHORT).show()
-                finish()
+                // API 29부터는 외부저장소 권한을 따로 요청할 필요가 X
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                    permissionGranted(PERM_STORAGE)
+                } else {
+                    Toast.makeText(this, "공용 저장소 권한을 승인해야 앱을 사용할 수 있습니다.", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
             }
             PERM_CAMERA -> {
                 Toast.makeText(this, "카메라 권한을 승인해야 카메라를 사용할 수 있습니다.", Toast.LENGTH_SHORT).show()
