@@ -149,7 +149,8 @@ class Test1Activity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
-            // ************ 카메라, 갤러리 둘 다 uri를 인공지능에 보내주면 될듯 ***************
+            // ************ 해봐야 알겠지만 카메라, 갤러리 둘 다 uri를 인공지능에 보내주면 될듯 ***************
+            // @@@@@@@@@@@@@@@ 인공지능 연결하고 응답이 오면 인텐트에 키 personalColor로 담아서 다음 화면으로 넘어가게 구현할 예정 @@@@@@@@@@@@@@@@
             when(requestCode){
                 REQ_CAMERA -> {
                     // ACTION_IMAGE_CAPTURE를 사용하면 이미지가 Bitmap으로 반환됨
