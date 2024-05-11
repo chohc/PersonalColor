@@ -2,10 +2,7 @@ package com.example.personalcolor
 
 import android.os.Bundle
 import android.widget.ProgressBar
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class Test2Activity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar

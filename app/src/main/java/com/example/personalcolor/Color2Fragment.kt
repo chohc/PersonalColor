@@ -22,11 +22,8 @@ class Color2Fragment : Fragment() {
         // 아이템 클릭 리스너 설정
         gridView.setOnItemClickListener { _, _, _, _ ->
             val test2Activity = activity as? Test2Activity
-            test2Activity?.let {
-                it.supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, Color3Fragment()) // 다음 프래그먼트로 전환
-                    .commit()
-            }
+            test2Activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.container, Color3Fragment())?.commit()
         }
 
         return view
