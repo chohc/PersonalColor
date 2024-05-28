@@ -5,6 +5,7 @@ import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.graphics.Matrix
 import android.media.ExifInterface
@@ -15,15 +16,24 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.personalcolor.databinding.ActivityMainBinding
 import com.example.personalcolor.databinding.ActivityTest1Binding
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetectorOptions
+import org.opencv.android.Utils
+import org.opencv.core.Core
+import org.opencv.core.Mat
+import org.opencv.core.Scalar
+import org.opencv.imgproc.Imgproc
 import java.text.SimpleDateFormat
+import android.widget.ImageView
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import org.opencv.android.OpenCVLoader
 
 class Test1Activity : BaseActivity() {
 
@@ -47,6 +57,8 @@ class Test1Activity : BaseActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        OpenCVLoader.initDebug()
 
         // 1. 외부저장소 권한이 있는지 확인
         requirePermission(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
@@ -149,8 +161,7 @@ class Test1Activity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
-            // ************ 해봐야 알겠지만 카메라, 갤러리 둘 다 uri를 인공지능에 보내주면 될듯 ***************
-            // @@@@@@@@@@@@@@@ 인공지능 연결하고 응답이 오면 인텐트에 키 personalColor로 담아서 다음 화면으로 넘어가게 구현할 예정 @@@@@@@@@@@@@@@@
+
             when(requestCode){
                 REQ_CAMERA -> {
                     // ACTION_IMAGE_CAPTURE를 사용하면 이미지가 Bitmap으로 반환됨
@@ -158,7 +169,15 @@ class Test1Activity : BaseActivity() {
 //                    binding.imageView.setImageBitmap(bitmap)  // 이미지뷰에 넣어줌
                     realUri?.let { uri ->
                         val bitmap = loadBitmap(uri)
-                        binding.imageView.setImageBitmap(bitmap)
+                        //binding.imageView.setImageBitmap(bitmap)
+
+                        if (bitmap != null) {
+                            detectAndCropFace(bitmap) { processedBitmap ->
+                                // 전처리된 이미지를 이미지뷰에 설정
+                                binding.imageView.setImageBitmap(processedBitmap)
+                                // 여기서 인공지능 API 호출 등을 수행할 수 있음
+                            }
+                        }
 
                         realUri = null
                     }
@@ -167,11 +186,108 @@ class Test1Activity : BaseActivity() {
                 REQ_GALLERY -> {
                     data?.data?.let {uri ->
                         // 갤러리에서 가져올때는 저장할 필요가 따로 없으니까 사진의 uri만 가져오면 됨
-                        binding.imageView.setImageURI(uri)
+                        // binding.imageView.setImageURI(uri)
+
+                        // 갤러리에서 선택한 사진 처리
+                        val bitmap = loadBitmap(uri)
+                        //binding.imageView.setImageBitmap(bitmap)
+
+                        if (bitmap != null) {
+                            detectAndCropFace(bitmap) { processedBitmap ->
+                                // 전처리된 이미지를 이미지뷰에 설정
+                                binding.imageView.setImageBitmap(processedBitmap)
+                                // 여기서 인공지능 API 호출 등을 수행할 수 있음
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
+
+    // 이미지 전처리(얼굴인식, ycbcr마스크)
+    private fun detectAndCropFace(bitmap: Bitmap, callback: (Bitmap) -> Unit) {
+        // 이미지를 원하는 크기로 리사이징
+        val resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
+
+        // ML Kit Face Detector 초기화
+        val options = FaceDetectorOptions.Builder()
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+            .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_NONE)
+            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_NONE)
+            .build()
+        val faceDetector = FaceDetection.getClient(options)
+
+        // 얼굴 감지
+        val inputImage = InputImage.fromBitmap(resizedBitmap, 0)
+        faceDetector.process(inputImage)
+            .addOnSuccessListener { faces ->
+                if (faces.isNotEmpty()) {
+                    val face = faces[0] // 첫 번째 얼굴만 처리
+                    val faceRect = face.boundingBox // 얼굴 경계 상자
+
+                    // 경계 상자 조정
+                    val padding = -10 // 원하는 크기만큼 패딩
+                    val left = (faceRect.left - padding).coerceAtLeast(0)
+                    val top = (faceRect.top - padding).coerceAtLeast(0)
+                    val right = (faceRect.right + padding).coerceAtMost(resizedBitmap.width)
+                    val bottom = (faceRect.bottom + padding).coerceAtMost(resizedBitmap.height) + 5
+
+                    // 조정된 경계 상자를 사용하여 얼굴 부분 크롭
+                    val croppedBitmap = Bitmap.createBitmap(
+                        resizedBitmap,
+                        left,
+                        top,
+                        right - left,
+                        bottom - top
+                    )
+
+                    // YCbCr 마스크 적용
+                    val ycbcrMaskedImage = applyYCbCrMask(croppedBitmap)
+
+                    // 전처리된 이미지 반환
+                    callback(ycbcrMaskedImage)
+                } else {
+                    // 얼굴이 감지되지 않았을 때 처리
+                    Toast.makeText(this, "No face detected", Toast.LENGTH_SHORT).show()
+                    callback(Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888))
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+                // 얼굴 감지 실패 시 에러 처리
+                Toast.makeText(this, "Error occurred", Toast.LENGTH_SHORT).show()
+                callback(Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888))
+            }
+    }
+
+
+    // Ycbcr 마스크
+    private fun applyYCbCrMask(bitmap: Bitmap): Bitmap {
+        val mat = Mat()
+        Utils.bitmapToMat(bitmap, mat)
+
+        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2YCrCb)
+
+        // 마스크 기준
+//        val lowerBound = Scalar(60.0, 135.0, 85.0)
+//        val upperBound = Scalar(255.0, 180.0, 135.0)
+//
+//        // 마스크
+//        val mask = Mat()
+//        Core.inRange(mat, lowerBound, upperBound, mask)
+//
+//        // 결과 이미지를 저장할 Mat 객체 생성
+//        val resultMat = Mat()
+//        mat.copyTo(resultMat, mask)
+//
+//        Imgproc.cvtColor(resultMat, resultMat, Imgproc.COLOR_YCrCb2RGB)
+
+        // 결과 이미지를 비트맵으로 변환
+        val ycbcrBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
+        Utils.matToBitmap(mat, ycbcrBitmap)
+
+        return ycbcrBitmap
+    }
 }
