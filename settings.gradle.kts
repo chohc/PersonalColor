@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "PersonalColor"
 include(":app")
+include(":opencv")
+project(":opencv").projectDir = File("opencv-android-sdk/sdk")
+

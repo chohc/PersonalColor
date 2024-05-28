@@ -21,16 +21,21 @@
         android:theme="@style/Theme.PersonalColor"
         tools:targetApi="31">
         <activity
+            android:name=".NotUseActivity"
+            android:exported="true" />
+        <activity
             android:name=".ResultActivity"
             android:exported="false" />
         <activity
             android:name=".Test2Activity"
             android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".SurveyActivity"
