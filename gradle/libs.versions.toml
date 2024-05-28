@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.1"
+agp = "8.4.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -10,6 +10,7 @@ material = "1.11.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
 faceDetection = "16.1.6"
+facedetectionVersion = "0.10.14"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -21,6 +22,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 face-detection = { group = "com.google.mlkit", name = "face-detection", version.ref = "faceDetection" }
+facedetection = { group = "com.google.mediapipe", name = "facedetection", version.ref = "facedetectionVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
