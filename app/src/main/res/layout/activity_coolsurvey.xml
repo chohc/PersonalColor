@@ -5,12 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
-    tools:context=".SurveyActivity">
+    android:orientation="vertical"
+    tools:context=".CoolSurveyActivity">
 
     <TextView
-        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -23,53 +22,26 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/radioButton11"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/radioButton11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="노란빛 밝은 피부" />
-                <RadioButton
-                    android:id="@+id/radioButton12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="핑크빛 피부" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/radioButton13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="노란빛 갈색 피부" />
-                <RadioButton
-                    android:id="@+id/radioButton14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="흰 피부" />
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_weight="1"
+            android:text="핑크빛 피부" />
+
+        <RadioButton
+            android:id="@+id/radioButton12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="붉은기 없는 흰 피부" />
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="20dp"
+        android:orientation="horizontal"
         android:text="2. 당신의 머리카락 색은?" />
 
     <RadioGroup
@@ -84,18 +56,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="RadioButton" />
+            android:text="어두운 갈색" />
 
         <RadioButton
             android:id="@+id/radioButton22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="RadioButton" />
+            android:text="검은색" />
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -106,29 +77,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <RadioButton
             android:id="@+id/radioButton31"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="RadioButton" />
+            android:text="갈색" />
 
         <RadioButton
             android:id="@+id/radioButton32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="RadioButton" />
+            android:text="어두운 갈색, 블랙" />
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="4. 당신의 이미지는?"/>
+        android:text="4. 당신의 이미지는?" />
 
     <RadioGroup
         android:id="@+id/RdoGroup4"
@@ -142,45 +112,75 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="RadioButton" />
+            android:text="부드럽고 세련된" />
 
         <RadioButton
             android:id="@+id/radioButton42"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="RadioButton" />
+            android:text="도시적인" />
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="5. 어떤 색이 어울리나요?" />
+        android:text="5. 어떤 색이 가장 잘 어울리나요?" />
 
     <RadioGroup
         android:id="@+id/RdoGroup5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="10dp">
-        <RadioButton
-            android:id="@+id/radioButton51"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="RadioButton" />
-        <RadioButton
-            android:id="@+id/radioButton52"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="RadioButton" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton51"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="파스텔 톤" />
+
+            <RadioButton
+                android:id="@+id/radioButton52"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="부드럽고 차가운 톤" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton53"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="어둡고 깊은 톤" />
+
+            <RadioButton
+                android:id="@+id/radioButton54"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="심플하고 강한 톤" />
+        </LinearLayout>
+
+
     </RadioGroup>
 
     <Button
-        android:id="@+id/nextButton"
+        android:id="@+id/goTest2Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

@@ -34,6 +34,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import org.opencv.android.OpenCVLoader
+import org.tensorflow.lite.Interpreter
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.channels.FileChannel
 
 class Test1Activity : BaseActivity() {
 
@@ -48,6 +52,12 @@ class Test1Activity : BaseActivity() {
     // 바인딩 생성
     val binding by lazy { ActivityTest1Binding.inflate(layoutInflater) }
 
+    // 모델 인터프리터
+    private lateinit var interpreter: Interpreter
+
+    // 결과 톤
+    var tone: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -59,6 +69,12 @@ class Test1Activity : BaseActivity() {
         }
 
         OpenCVLoader.initDebug()
+
+        // 모델 초기화
+        interpreter = Interpreter(loadModelFile("coolwarm_cnn_model.tflite"))
+
+        // 가이드라인 이미지 보여주기
+        binding.imageView.setImageResource(R.drawable.guideline)
 
         // 1. 외부저장소 권한이 있는지 확인
         requirePermission(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
@@ -73,6 +89,20 @@ class Test1Activity : BaseActivity() {
         binding.galleryButton.setOnClickListener {
             openGallery()
         }
+        // next 버튼이 클릭되면 설문 페이지로 이동
+        binding.goSurveyButton.setOnClickListener {
+            if(tone == ""){
+                Toast.makeText(this, "사진을 먼저 업로드해주세요", Toast.LENGTH_SHORT).show()
+            }
+            else if(tone == "Cool"){
+                var intent = Intent(this,CoolSurveyActivity::class.java)
+                startActivity(intent)
+            } else {
+                var intent = Intent(this,WarmSurveyActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
     }
 
     // 원본 이미지의 주소를 저장할 변수
@@ -169,13 +199,15 @@ class Test1Activity : BaseActivity() {
 //                    binding.imageView.setImageBitmap(bitmap)  // 이미지뷰에 넣어줌
                     realUri?.let { uri ->
                         val bitmap = loadBitmap(uri)
-                        //binding.imageView.setImageBitmap(bitmap)
+                        binding.imageView.setImageBitmap(bitmap)
 
                         if (bitmap != null) {
                             detectAndCropFace(bitmap) { processedBitmap ->
-                                // 전처리된 이미지를 이미지뷰에 설정
-                                binding.imageView.setImageBitmap(processedBitmap)
-                                // 여기서 인공지능 API 호출 등을 수행할 수 있음
+                                // 전처리된 이미지로 모델 예측
+                                val resizedBitmap = Bitmap.createScaledBitmap(processedBitmap, 128, 128, true)
+                                val result = predict(resizedBitmap)
+                                tone = if (result[0] > result[1]) "Cool" else "Warm"
+
                             }
                         }
 
@@ -190,13 +222,15 @@ class Test1Activity : BaseActivity() {
 
                         // 갤러리에서 선택한 사진 처리
                         val bitmap = loadBitmap(uri)
-                        //binding.imageView.setImageBitmap(bitmap)
+                        binding.imageView.setImageBitmap(bitmap)
 
                         if (bitmap != null) {
                             detectAndCropFace(bitmap) { processedBitmap ->
-                                // 전처리된 이미지를 이미지뷰에 설정
-                                binding.imageView.setImageBitmap(processedBitmap)
-                                // 여기서 인공지능 API 호출 등을 수행할 수 있음
+                                // 전처리된 이미지로 모델 예측
+                                val resizedBitmap = Bitmap.createScaledBitmap(processedBitmap, 128, 128, true)
+                                val result = predict(resizedBitmap)
+                                tone = if (result[0] > result[1]) "Cool" else "Warm"
+
                             }
                         }
                     }
@@ -265,29 +299,81 @@ class Test1Activity : BaseActivity() {
 
     // Ycbcr 마스크
     private fun applyYCbCrMask(bitmap: Bitmap): Bitmap {
+        // 비트맵의 픽셀 데이터 잠금 해제
+        val mutableBitmap = if (!bitmap.isMutable) {
+            bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        } else {
+            bitmap
+        }
+
         val mat = Mat()
-        Utils.bitmapToMat(bitmap, mat)
+        Utils.bitmapToMat(mutableBitmap, mat)
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2YCrCb)
 
         // 마스크 기준
-//        val lowerBound = Scalar(60.0, 135.0, 85.0)
-//        val upperBound = Scalar(255.0, 180.0, 135.0)
-//
-//        // 마스크
-//        val mask = Mat()
-//        Core.inRange(mat, lowerBound, upperBound, mask)
-//
-//        // 결과 이미지를 저장할 Mat 객체 생성
-//        val resultMat = Mat()
-//        mat.copyTo(resultMat, mask)
-//
-//        Imgproc.cvtColor(resultMat, resultMat, Imgproc.COLOR_YCrCb2RGB)
+        val lowerBound = Scalar(60.0, 135.0, 85.0)
+        val upperBound = Scalar(255.0, 180.0, 135.0)
+
+        // 마스크
+        val mask = Mat()
+        Core.inRange(mat, lowerBound, upperBound, mask)
+
+        // 결과 이미지를 저장할 Mat 객체 생성
+        val resultMat = Mat()
+        mat.copyTo(resultMat, mask)
+
+        Imgproc.cvtColor(resultMat, resultMat, Imgproc.COLOR_YCrCb2RGB)
 
         // 결과 이미지를 비트맵으로 변환
-        val ycbcrBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
-        Utils.matToBitmap(mat, ycbcrBitmap)
+        val ycbcrBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(resultMat, ycbcrBitmap)
+
+        // Mat 객체 메모리 해제
+        mat.release()
+        mask.release()
+        resultMat.release()
 
         return ycbcrBitmap
+    }
+
+    // 모델 파일 로드
+    private fun loadModelFile(filename: String): ByteBuffer {
+        val assetFileDescriptor = assets.openFd(filename)
+        val fileInputStream = assetFileDescriptor.createInputStream()
+        val fileChannel = fileInputStream.channel
+        val startOffset = assetFileDescriptor.startOffset
+        val declaredLength = assetFileDescriptor.declaredLength
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength).order(ByteOrder.nativeOrder())
+    }
+
+    // 이미지 예측
+    private fun predict(bitmap: Bitmap): FloatArray {
+        val inputBuffer = ByteBuffer.allocateDirect(4 * 128 * 128 * 3).order(ByteOrder.nativeOrder())
+        val intValues = IntArray(128 * 128)
+        bitmap.getPixels(intValues, 0, 128, 0, 0, 128, 128)
+
+        // 이미지를 정규화하고 버퍼에 넣기
+        for (pixel in intValues) {
+            val r = (pixel shr 16 and 0xFF) / 255.0f
+            val g = (pixel shr 8 and 0xFF) / 255.0f
+            val b = (pixel and 0xFF) / 255.0f
+            inputBuffer.putFloat(r)
+            inputBuffer.putFloat(g)
+            inputBuffer.putFloat(b)
+        }
+
+        val outputBuffer = ByteBuffer.allocateDirect(4 * 2).order(ByteOrder.nativeOrder())
+        interpreter.run(inputBuffer, outputBuffer)
+
+        outputBuffer.rewind()
+        val result = FloatArray(2)
+        outputBuffer.asFloatBuffer().get(result)
+        return result
+    }
+
+    override fun onDestroy() {
+        interpreter.close()
+        super.onDestroy()
     }
 }
