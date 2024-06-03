@@ -39,6 +39,9 @@ class CoolSurveyActivity : AppCompatActivity() {
     var summer: Int = 0;
     var winter: Int = 0;
 
+    // 이미지 uri
+    var imageUri: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -67,6 +70,8 @@ class CoolSurveyActivity : AppCompatActivity() {
         radioButton53 = findViewById(R.id.radioButton53)
         radioButton54 = findViewById(R.id.radioButton54)
 
+        imageUri = intent.getStringExtra("imageUri")
+
         // Group5 RadioButton 클릭 리스너
         val radioButtons = listOf(radioButton51, radioButton52, radioButton53, radioButton54)
 
@@ -76,7 +81,6 @@ class CoolSurveyActivity : AppCompatActivity() {
                 button.isChecked = true
             }
         }
-
 
         // 다음 버튼을 누르면
         nextBtn.setOnClickListener {
@@ -134,8 +138,15 @@ class CoolSurveyActivity : AppCompatActivity() {
 
                 // 봄, 여름, 가을, 겨울 인텐트에 담기
                 var intent = Intent(this,Test2Activity::class.java)
-                val tone = if (summer > winter) "summer" else "winter"
-                intent.putExtra("tone", tone)
+
+//                val tone = if (summer > winter) "summer" else "winter"
+//                intent.putExtra("tone", tone)
+                intent.putExtra("summer", summer)
+                intent.putExtra("winter", winter)
+
+                // intent로 imageUri 값 전달
+                intent.putExtra("imageUri", imageUri)
+
                 startActivity(intent)
 
                 // Toast.makeText(this, "summer : " + summer + " winter : " + winter + " tone : " + tone, Toast.LENGTH_SHORT).show()

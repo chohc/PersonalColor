@@ -2,6 +2,7 @@ package com.example.personalcolor
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -39,6 +40,9 @@ class WarmSurveyActivity : AppCompatActivity() {
     var spring: Int = 0
     var fall: Int = 0
 
+    // 이미지 uri
+    var imageUri: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -66,6 +70,8 @@ class WarmSurveyActivity : AppCompatActivity() {
         radioButton52 = findViewById(R.id.radioButton52)
         radioButton53 = findViewById(R.id.radioButton53)
         radioButton54 = findViewById(R.id.radioButton54)
+
+        imageUri = intent.getStringExtra("imageUri")
 
         // Group5 RadioButton 클릭 리스너
         val radioButtons = listOf(radioButton51, radioButton52, radioButton53, radioButton54)
@@ -132,12 +138,18 @@ class WarmSurveyActivity : AppCompatActivity() {
 
                 // 봄, 여름, 가을, 겨울 인텐트에 담기
                 var intent = Intent(this,Test2Activity::class.java)
-                val tone = if (spring > fall) "spring" else "fall"
-                intent.putExtra("tone", tone)
+
+//                val tone = if (spring > fall) "spring" else "fall"
+//                intent.putExtra("tone", tone)
+                intent.putExtra("spring", spring)
+                intent.putExtra("fall", fall)
+
+                // intent로 imageUri 값 전달
+                intent.putExtra("imageUri", imageUri)
+
                 startActivity(intent)
 
                 // Toast.makeText(this, "spring : " + spring + " fall : " + fall + " tone : " + tone, Toast.LENGTH_SHORT).show()
-
             }
         }
     }

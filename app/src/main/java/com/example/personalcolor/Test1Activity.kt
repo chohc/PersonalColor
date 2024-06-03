@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
@@ -58,6 +59,9 @@ class Test1Activity : BaseActivity() {
     // 결과 톤
     var tone: String = ""
 
+    // 이미지 uri
+    var imageUri: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -96,9 +100,12 @@ class Test1Activity : BaseActivity() {
             }
             else if(tone == "Cool"){
                 var intent = Intent(this,CoolSurveyActivity::class.java)
+                intent.putExtra("imageUri", imageUri)
                 startActivity(intent)
             } else {
+//                Log.d("Test1Activity", "imageUri: $imageUri")
                 var intent = Intent(this,WarmSurveyActivity::class.java)
+                intent.putExtra("imageUri", imageUri)
                 startActivity(intent)
             }
         }
@@ -200,6 +207,7 @@ class Test1Activity : BaseActivity() {
                     realUri?.let { uri ->
                         val bitmap = loadBitmap(uri)
                         binding.imageView.setImageBitmap(bitmap)
+                        imageUri = uri.toString()
 
                         if (bitmap != null) {
                             detectAndCropFace(bitmap) { processedBitmap ->
@@ -207,6 +215,7 @@ class Test1Activity : BaseActivity() {
                                 val resizedBitmap = Bitmap.createScaledBitmap(processedBitmap, 128, 128, true)
                                 val result = predict(resizedBitmap)
                                 tone = if (result[0] > result[1]) "Cool" else "Warm"
+
 
                             }
                         }
@@ -223,6 +232,7 @@ class Test1Activity : BaseActivity() {
                         // 갤러리에서 선택한 사진 처리
                         val bitmap = loadBitmap(uri)
                         binding.imageView.setImageBitmap(bitmap)
+                        imageUri = uri.toString()
 
                         if (bitmap != null) {
                             detectAndCropFace(bitmap) { processedBitmap ->
@@ -231,6 +241,8 @@ class Test1Activity : BaseActivity() {
                                 val result = predict(resizedBitmap)
                                 tone = if (result[0] > result[1]) "Cool" else "Warm"
 
+                                // intent로 imageUri 값 전달
+                                intent.putExtra("imageUri", uri.toString())
                             }
                         }
                     }
