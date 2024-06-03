@@ -21,8 +21,8 @@ class Cool2Fragment : Fragment() {
         // 레이아웃 인플레이션
         val view = inflater.inflate(R.layout.fragment_cool2, container, false)
 
-        val imageView1: ImageView = view.findViewById(R.id.imageView1)
-        val imageView2: ImageView = view.findViewById(R.id.imageView2)
+        val imageView1: ImageView = view.findViewById(R.id.cool2_imageView1)
+        val imageView2: ImageView = view.findViewById(R.id.cool2_imageView2)
 
         // Test2Activity로부터 imageUri 가져오기
         val imageUri = (activity as? Test2Activity)?.imageUri
@@ -40,8 +40,8 @@ class Cool2Fragment : Fragment() {
         }
 
         // 옷 투명 배경 제거하고 배치
-        val overlayImageView1: ImageView = view.findViewById(R.id.overlayImageView1)
-        val overlayImageView2: ImageView = view.findViewById(R.id.overlayImageView2)
+        val overlayImageView1: ImageView = view.findViewById(R.id.cool2_overlayImageView1)
+        val overlayImageView2: ImageView = view.findViewById(R.id.cool2_overlayImageView2)
 
         setImageViewWithTransparentBackground(overlayImageView1, R.drawable.summer_yellow)
         setImageViewWithTransparentBackground(overlayImageView2, R.drawable.winter_yellow)
@@ -56,7 +56,7 @@ class Cool2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 프로그레스 바 값을 1로 설정
-        (activity as? Test2Activity)?.updateProgressBar(1)
+        (activity as? Test2Activity)?.updateProgressBar(2)
     }
 
     // 비트맵으로 이미지 처리 함수

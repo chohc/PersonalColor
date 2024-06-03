@@ -3,7 +3,6 @@ package com.example.personalcolor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,8 +21,8 @@ class Cool1Fragment : Fragment() {
         // 레이아웃 인플레이션
         val view = inflater.inflate(R.layout.fragment_cool1, container, false)
 
-        val imageView1: ImageView = view.findViewById(R.id.imageView1)
-        val imageView2: ImageView = view.findViewById(R.id.imageView2)
+        val imageView1: ImageView = view.findViewById(R.id.cool1_imageView1)
+        val imageView2: ImageView = view.findViewById(R.id.cool1_imageView2)
 
         // Test2Activity로부터 imageUri 가져오기
         val imageUri = (activity as? Test2Activity)?.imageUri
@@ -41,8 +40,8 @@ class Cool1Fragment : Fragment() {
         }
 
         // 옷 투명 배경 제거하고 배치
-        val overlayImageView1: ImageView = view.findViewById(R.id.overlayImageView1)
-        val overlayImageView2: ImageView = view.findViewById(R.id.overlayImageView2)
+        val overlayImageView1: ImageView = view.findViewById(R.id.cool1_overlayImageView1)
+        val overlayImageView2: ImageView = view.findViewById(R.id.cool1_overlayImageView2)
 
         setImageViewWithTransparentBackground(overlayImageView1, R.drawable.summer_pink)
         setImageViewWithTransparentBackground(overlayImageView2, R.drawable.winter_pink)

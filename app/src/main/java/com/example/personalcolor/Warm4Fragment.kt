@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 
 class Warm4Fragment : Fragment() {
     companion object {
@@ -28,10 +29,14 @@ class Warm4Fragment : Fragment() {
 
         // imageUri가 null이 아니라면 이미지 설정
         imageUri?.let {
-            // URI를 Bitmap으로 변환하여 이미지뷰에 설정
-            val bitmap = BitmapFactory.decodeFile(it)
-            imageView1.setImageBitmap(bitmap)
-            imageView2.setImageBitmap(bitmap)
+            // Glide를 사용하여 URI를 이미지뷰에 설정
+            Glide.with(this)
+                .load(it)
+                .into(imageView1)
+
+            Glide.with(this)
+                .load(it)
+                .into(imageView2)
         }
 
         // 옷 투명 배경 제거하고 배치
