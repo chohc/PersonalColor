@@ -62,6 +62,9 @@ class Test1Activity : BaseActivity() {
     // 이미지 uri
     var imageUri: String? = null
 
+    // 이미지 비트맵
+    var faceCropBitmap: Bitmap? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -78,7 +81,7 @@ class Test1Activity : BaseActivity() {
         interpreter = Interpreter(loadModelFile("coolwarm_cnn_model.tflite"))
 
         // 가이드라인 이미지 보여주기
-        binding.imageView.setImageResource(R.drawable.guideline)
+        binding.imageView.setImageResource(R.drawable.guideline1)
 
         // 1. 외부저장소 권한이 있는지 확인
         requirePermission(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
@@ -101,11 +104,13 @@ class Test1Activity : BaseActivity() {
             else if(tone == "Cool"){
                 var intent = Intent(this,CoolSurveyActivity::class.java)
                 intent.putExtra("imageUri", imageUri)
+                intent.putExtra("bitmap", faceCropBitmap)
                 startActivity(intent)
             } else {
 //                Log.d("Test1Activity", "imageUri: $imageUri")
                 var intent = Intent(this,WarmSurveyActivity::class.java)
                 intent.putExtra("imageUri", imageUri)
+                intent.putExtra("bitmap", faceCropBitmap)
                 startActivity(intent)
             }
         }
@@ -231,7 +236,7 @@ class Test1Activity : BaseActivity() {
 
                         // 갤러리에서 선택한 사진 처리
                         val bitmap = loadBitmap(uri)
-                        binding.imageView.setImageBitmap(bitmap)
+                        //binding.imageView.setImageBitmap(bitmap)
                         imageUri = uri.toString()
 
                         if (bitmap != null) {
@@ -240,7 +245,8 @@ class Test1Activity : BaseActivity() {
                                 val resizedBitmap = Bitmap.createScaledBitmap(processedBitmap, 128, 128, true)
                                 val result = predict(resizedBitmap)
                                 tone = if (result[0] > result[1]) "Cool" else "Warm"
-
+                                Toast.makeText(this, tone, Toast.LENGTH_SHORT).show()
+                                binding.imageView.setImageBitmap(processedBitmap)
                                 // intent로 imageUri 값 전달
                                 intent.putExtra("imageUri", uri.toString())
                             }
@@ -274,11 +280,11 @@ class Test1Activity : BaseActivity() {
                     val faceRect = face.boundingBox // 얼굴 경계 상자
 
                     // 경계 상자 조정
-                    val padding = -10 // 원하는 크기만큼 패딩
-                    val left = (faceRect.left - padding).coerceAtLeast(0)
-                    val top = (faceRect.top - padding).coerceAtLeast(0)
-                    val right = (faceRect.right + padding).coerceAtMost(resizedBitmap.width)
-                    val bottom = (faceRect.bottom + padding).coerceAtMost(resizedBitmap.height) + 5
+                    var padding = -10 // 원하는 크기만큼 패딩
+                    var left = (faceRect.left - padding).coerceAtLeast(0)
+                    var top = (faceRect.top - padding).coerceAtLeast(0)
+                    var right = (faceRect.right + padding).coerceAtMost(resizedBitmap.width)
+                    var bottom = (faceRect.bottom + padding).coerceAtMost(resizedBitmap.height) + 5
 
                     // 조정된 경계 상자를 사용하여 얼굴 부분 크롭
                     val croppedBitmap = Bitmap.createBitmap(
@@ -291,6 +297,27 @@ class Test1Activity : BaseActivity() {
 
                     // YCbCr 마스크 적용
                     val ycbcrMaskedImage = applyYCbCrMask(croppedBitmap)
+
+                    // 인텐트로 넘길 크롭 이미지 만들기
+                    // 경계 상자 재조정
+                    val paddingHosizontal = 10
+                    val paddingVertical = 20 // 원하는 크기만큼 패딩
+                    left = (faceRect.left - paddingHosizontal).coerceAtLeast(0)
+                    top = (faceRect.top - paddingVertical).coerceAtLeast(0)
+                    right = (faceRect.right + paddingHosizontal).coerceAtMost(resizedBitmap.width)
+                    bottom = (faceRect.bottom + paddingVertical).coerceAtMost(resizedBitmap.height) + 5
+
+                    // 조정된 경계 상자를 사용하여 얼굴 부분 크롭
+                    val croppedBitmap2 = Bitmap.createBitmap(
+                        resizedBitmap,
+                        left,
+                        top,
+                        right - left,
+                        bottom - top
+                    )
+
+                    // 인텐트로 넘길 크롭 이미지
+                    faceCropBitmap = croppedBitmap2
 
                     // 전처리된 이미지 반환
                     callback(ycbcrMaskedImage)
@@ -321,6 +348,7 @@ class Test1Activity : BaseActivity() {
         val mat = Mat()
         Utils.bitmapToMat(mutableBitmap, mat)
 
+        // RGB -> Ycbcr
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_RGB2YCrCb)
 
         // 마스크 기준
@@ -335,6 +363,7 @@ class Test1Activity : BaseActivity() {
         val resultMat = Mat()
         mat.copyTo(resultMat, mask)
 
+        // Ycbcr -> RGB
         Imgproc.cvtColor(resultMat, resultMat, Imgproc.COLOR_YCrCb2RGB)
 
         // 결과 이미지를 비트맵으로 변환
