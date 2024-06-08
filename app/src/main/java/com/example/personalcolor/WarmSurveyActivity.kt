@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
@@ -17,7 +18,7 @@ import com.example.personalcolor.databinding.ActivityWarmsurveyBinding
 class WarmSurveyActivity : AppCompatActivity() {
 
     // 갑자기 바인딩이 잘동작을 안해서 노가다로...
-    lateinit var nextBtn : Button
+    lateinit var nextBtn : ImageButton
     lateinit var RdoGroup1 : RadioGroup
     lateinit var RdoGroup2 : RadioGroup
     lateinit var RdoGroup3 : RadioGroup

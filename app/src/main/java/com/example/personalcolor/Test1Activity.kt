@@ -236,7 +236,7 @@ class Test1Activity : BaseActivity() {
 
                         // 갤러리에서 선택한 사진 처리
                         val bitmap = loadBitmap(uri)
-                        //binding.imageView.setImageBitmap(bitmap)
+                        binding.imageView.setImageBitmap(bitmap)
                         imageUri = uri.toString()
 
                         if (bitmap != null) {
@@ -246,7 +246,7 @@ class Test1Activity : BaseActivity() {
                                 val result = predict(resizedBitmap)
                                 tone = if (result[0] > result[1]) "Cool" else "Warm"
                                 Toast.makeText(this, tone, Toast.LENGTH_SHORT).show()
-                                binding.imageView.setImageBitmap(processedBitmap)
+                                // binding.imageView.setImageBitmap(processedBitmap)
                                 // intent로 imageUri 값 전달
                                 intent.putExtra("imageUri", uri.toString())
                             }

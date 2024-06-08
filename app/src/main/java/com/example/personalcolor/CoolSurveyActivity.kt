@@ -3,6 +3,7 @@ package com.example.personalcolor
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
@@ -16,7 +17,7 @@ import com.example.personalcolor.databinding.ActivityTest1Binding
 class CoolSurveyActivity : AppCompatActivity() {
 
     // 갑자기 바인딩이 잘안돼서 노가다로...
-    lateinit var nextBtn : Button
+    lateinit var nextBtn : ImageButton
     lateinit var RdoGroup1 : RadioGroup
     lateinit var RdoGroup2 : RadioGroup
     lateinit var RdoGroup3 : RadioGroup
