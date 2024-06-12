@@ -28,14 +28,7 @@
             android:exported="false" />
         <activity
             android:name=".Test2Activity"
-            android:exported="false">
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
-
-
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".WarmSurveyActivity"
             android:exported="false" />

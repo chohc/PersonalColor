@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
-        android:src="@drawable/tflite_test_image_1" />
+        android:src="@drawable/tflite_4" />
 
     <Button
         android:id="@+id/predictButton"

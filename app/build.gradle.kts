@@ -52,6 +52,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation("androidx.core:core-ktx:1.10.0")
 
     // TensorFlow Lite 의존성 추가
     implementation("org.tensorflow:tensorflow-lite:2.9.0")

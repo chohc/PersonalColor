@@ -1,6 +1,8 @@
 package com.example.personalcolor
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.ProgressBar
@@ -15,6 +17,7 @@ class Test2Activity : AppCompatActivity() {
     private var fall: Int = -1
     private var winter: Int = -1
     var imageUri: String? = null
+    var faceCropBitmap: Bitmap? = null
     private var currentFragmentIndex = 0
     private val warmFragments = listOf(
         Warm1Fragment.newInstance(),
@@ -44,6 +47,12 @@ class Test2Activity : AppCompatActivity() {
         fall = intent.getIntExtra("fall", -1)
         winter = intent.getIntExtra("winter", -1)
         imageUri = intent.getStringExtra("imageUri")
+//        faceCropBitmap = intent.getParcelableExtra("bitmap")
+        faceCropBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("bitmap", Bitmap::class.java)
+        } else {
+            intent.getParcelableExtra("bitmap")
+        }
 
         // 첫 번째 Fragment 표시
         showFragment(currentFragmentIndex)

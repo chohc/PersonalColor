@@ -1,6 +1,8 @@
 package com.example.personalcolor
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -44,6 +46,9 @@ class WarmSurveyActivity : AppCompatActivity() {
     // 이미지 uri
     var imageUri: String? = null
 
+    // 이미지 비트맵
+    var faceCropBitmap: Bitmap? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -73,6 +78,12 @@ class WarmSurveyActivity : AppCompatActivity() {
         radioButton54 = findViewById(R.id.radioButton54)
 
         imageUri = intent.getStringExtra("imageUri")
+
+        faceCropBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("bitmap", Bitmap::class.java)
+        } else {
+            intent.getParcelableExtra("bitmap")
+        }
 
         // Group5 RadioButton 클릭 리스너
         val radioButtons = listOf(radioButton51, radioButton52, radioButton53, radioButton54)
@@ -147,6 +158,7 @@ class WarmSurveyActivity : AppCompatActivity() {
 
                 // intent로 imageUri 값 전달
                 intent.putExtra("imageUri", imageUri)
+                intent.putExtra("bitmap", faceCropBitmap)
 
                 startActivity(intent)
 

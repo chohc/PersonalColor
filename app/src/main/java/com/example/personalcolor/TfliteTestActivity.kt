@@ -25,7 +25,7 @@ class TfliteTestActivity : AppCompatActivity() {
         // 버튼 클릭 리스너 설정
         binding.predictButton.setOnClickListener {
             // 이미지를 비트맵으로 로드하고 예측 수행
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.tflite_test_image_1)
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.tflite_4)
             val resizedBitmap = Bitmap.createScaledBitmap(bitmap, 128, 128, true)
             val result = predict(resizedBitmap)
             binding.resultTextView.text = if (result[0] > result[1]) "Cool" else "Warm"

@@ -102,12 +102,13 @@ class Test1Activity : BaseActivity() {
                 Toast.makeText(this, "사진을 먼저 업로드해주세요", Toast.LENGTH_SHORT).show()
             }
             else if(tone == "Cool"){
+                Log.d("Test1Activity", "bitmap: $faceCropBitmap")
                 var intent = Intent(this,CoolSurveyActivity::class.java)
                 intent.putExtra("imageUri", imageUri)
                 intent.putExtra("bitmap", faceCropBitmap)
                 startActivity(intent)
             } else {
-//                Log.d("Test1Activity", "imageUri: $imageUri")
+                Log.d("Test1Activity", "bitmap: $faceCropBitmap")
                 var intent = Intent(this,WarmSurveyActivity::class.java)
                 intent.putExtra("imageUri", imageUri)
                 intent.putExtra("bitmap", faceCropBitmap)
@@ -220,8 +221,6 @@ class Test1Activity : BaseActivity() {
                                 val resizedBitmap = Bitmap.createScaledBitmap(processedBitmap, 128, 128, true)
                                 val result = predict(resizedBitmap)
                                 tone = if (result[0] > result[1]) "Cool" else "Warm"
-
-
                             }
                         }
 

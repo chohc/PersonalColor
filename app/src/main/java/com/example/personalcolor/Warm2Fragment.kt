@@ -25,10 +25,25 @@ class Warm2Fragment : Fragment() {
         val imageView2: ImageView = view.findViewById(R.id.imageView2)
 
         // Test2Activity로부터 imageUri 가져오기
-        val imageUri = (activity as? Test2Activity)?.imageUri
+        // val imageUri = (activity as? Test2Activity)?.imageUri
+
+        // Test2Activity로부터 faceCropBitmap 가져오기
+        val faceCropBitmap = (activity as? Test2Activity)?.faceCropBitmap
 
         // imageUri가 null이 아니라면 이미지 설정
-        imageUri?.let {
+//        imageUri?.let {
+//            // Glide를 사용하여 URI를 이미지뷰에 설정
+//            Glide.with(this)
+//                .load(it)
+//                .into(imageView1)
+//
+//            Glide.with(this)
+//                .load(it)
+//                .into(imageView2)
+//        }
+
+        // faceCropBitmap가 null이 아니라면 이미지 설정
+        faceCropBitmap?.let {
             // Glide를 사용하여 URI를 이미지뷰에 설정
             Glide.with(this)
                 .load(it)
@@ -43,6 +58,11 @@ class Warm2Fragment : Fragment() {
         val overlayImageView1: ImageView = view.findViewById(R.id.overlayImageView1)
         val overlayImageView2: ImageView = view.findViewById(R.id.overlayImageView2)
 
+        // 아래쪽으로 이동시키기
+        overlayImageView1.translationY = 83f // 아래로 83만큼 이동
+        overlayImageView2.translationY = 83f // 아래로 83만큼 이동
+
+        // 톤별 옷 배치
         setImageViewWithTransparentBackground(overlayImageView1, R.drawable.spring_yellow)
         setImageViewWithTransparentBackground(overlayImageView2, R.drawable.fall_yellow)
 
