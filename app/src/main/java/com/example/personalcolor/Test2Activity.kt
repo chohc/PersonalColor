@@ -47,7 +47,6 @@ class Test2Activity : AppCompatActivity() {
         fall = intent.getIntExtra("fall", -1)
         winter = intent.getIntExtra("winter", -1)
         imageUri = intent.getStringExtra("imageUri")
-//        faceCropBitmap = intent.getParcelableExtra("bitmap")
         faceCropBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("bitmap", Bitmap::class.java)
         } else {
@@ -104,9 +103,15 @@ class Test2Activity : AppCompatActivity() {
     }
 
     fun showWarmResultActivity() {
-        val intent = Intent(this, ResultActivity::class.java)
+        val intent = Intent(this, ResultActivity1::class.java)
+
+        // 봄웜톤인지 가을웜톤인지 값 전달
         val tone = if (spring > fall) "spring" else "fall"
         intent.putExtra("tone", tone)
+
+        // 사진 bitmap 전달
+        intent.putExtra("bitmap", faceCropBitmap)
+
         startActivity(intent)
         finish()
     }

@@ -149,10 +149,8 @@ class WarmSurveyActivity : AppCompatActivity() {
                 }
 
                 // 봄, 여름, 가을, 겨울 인텐트에 담기
-                var intent = Intent(this,Test2Activity::class.java)
+                var intent = Intent(this, Test2Activity::class.java)
 
-//                val tone = if (spring > fall) "spring" else "fall"
-//                intent.putExtra("tone", tone)
                 intent.putExtra("spring", spring)
                 intent.putExtra("fall", fall)
 

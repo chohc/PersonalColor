@@ -27,6 +27,7 @@
         android:textSize="21sp"
         android:textStyle="bold" />
     <ImageButton
+        android:id="@+id/questionButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/question_mark"
@@ -39,48 +40,60 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_marginBottom="6dp">
+
         <View
+            android:id="@+id/colo1"
             android:layout_width="100dp"
             android:layout_height="70dp"
-            android:background="#FF0000"
+            android:layout_marginHorizontal="3dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="3dp"/>
+            android:background="#FF0000" />
+
         <View
+            android:id="@+id/color2"
             android:layout_width="100dp"
             android:layout_height="70dp"
-            android:background="#FF0000"
+            android:layout_marginHorizontal="3dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="3dp"/>
+            android:background="#FF0000" />
+
         <View
+            android:id="@+id/color3"
             android:layout_width="100dp"
             android:layout_height="70dp"
-            android:background="#FF0000"
+            android:layout_marginHorizontal="3dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="3dp"/>
+            android:background="#FF0000" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_marginBottom="30dp">
+
         <View
+            android:id="@+id/color4"
             android:layout_width="100dp"
             android:layout_height="70dp"
-            android:background="#FF0000"
+            android:layout_marginHorizontal="3dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="3dp"/>
+            android:background="#FF0000" />
+
         <View
+            android:id="@+id/color5"
             android:layout_width="100dp"
             android:layout_height="70dp"
-            android:background="#FF0000"
+            android:layout_marginHorizontal="3dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="3dp"/>
+            android:background="#FF0000" />
+
         <View
+            android:id="@+id/color6"
             android:layout_width="100dp"
             android:layout_height="70dp"
-            android:background="#FF0000"
+            android:layout_marginHorizontal="3dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="3dp"/>
+            android:background="#FF0000" />
 
     </LinearLayout>
     <TextView

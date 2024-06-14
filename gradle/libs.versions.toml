@@ -11,6 +11,7 @@ activity = "1.8.0"
 constraintlayout = "2.1.4"
 faceDetection = "16.1.6"
 facedetectionVersion = "0.10.14"
+gridlayout = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,6 +24,7 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 face-detection = { group = "com.google.mlkit", name = "face-detection", version.ref = "faceDetection" }
 facedetection = { group = "com.google.mediapipe", name = "facedetection", version.ref = "facedetectionVersion" }
+androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

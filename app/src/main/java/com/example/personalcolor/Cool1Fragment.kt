@@ -24,23 +24,8 @@ class Cool1Fragment : Fragment() {
         val imageView1: ImageView = view.findViewById(R.id.cool1_imageView1)
         val imageView2: ImageView = view.findViewById(R.id.cool1_imageView2)
 
-        // Test2Activity로부터 imageUri 가져오기
-        // val imageUri = (activity as? Test2Activity)?.imageUri
-
         // Test2Activity로부터 faceCropBitmap 가져오기
         val faceCropBitmap = (activity as? Test2Activity)?.faceCropBitmap
-
-        // imageUri가 null이 아니라면 이미지 설정
-//        imageUri?.let {
-//            // Glide를 사용하여 URI를 이미지뷰에 설정
-//            Glide.with(this)
-//                .load(it)
-//                .into(imageView1)
-//
-//            Glide.with(this)
-//                .load(it)
-//                .into(imageView2)
-//        }
 
         // faceCropBitmap가 null이 아니라면 이미지 설정
         faceCropBitmap?.let {
