@@ -299,12 +299,12 @@ class Test1Activity : BaseActivity() {
 
                     // 인텐트로 넘길 크롭 이미지 만들기
                     // 경계 상자 재조정
-                    val paddingHosizontal = 10
+                    val paddingHosizontal = 15
                     val paddingVertical = 20 // 원하는 크기만큼 패딩
                     left = (faceRect.left - paddingHosizontal).coerceAtLeast(0)
                     top = (faceRect.top - paddingVertical).coerceAtLeast(0)
                     right = (faceRect.right + paddingHosizontal).coerceAtMost(resizedBitmap.width)
-                    bottom = (faceRect.bottom + paddingVertical).coerceAtMost(resizedBitmap.height) + 5
+                    bottom = (faceRect.bottom + paddingVertical + 5).coerceAtMost(resizedBitmap.height) + 5
 
                     // 조정된 경계 상자를 사용하여 얼굴 부분 크롭
                     val croppedBitmap2 = Bitmap.createBitmap(
