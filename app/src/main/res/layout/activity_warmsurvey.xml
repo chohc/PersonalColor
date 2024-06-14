@@ -5,16 +5,26 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background2"
+    android:background="@drawable/background_final"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".WarmSurveyActivity">
 
     <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:layout_marginBottom="20dp"
+        android:text="2. 설문 검사"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="10dp"
         android:text="1. 당신의 피부색은?" />
 
     <RadioGroup
@@ -191,8 +201,8 @@
 
         <ImageButton
             android:id="@+id/goTest2Button"
-            android:layout_width="85dp"
-            android:layout_height="84dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:background="#00FFFFFF"
@@ -201,6 +211,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/baseline_arrow_circle_right_24"
-            app:tint="#2C5970" />
+            app:tint="#F2BEAA" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
