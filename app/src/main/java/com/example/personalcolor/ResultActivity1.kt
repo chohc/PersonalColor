@@ -1,5 +1,6 @@
 package com.example.personalcolor
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -11,6 +12,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +25,16 @@ class ResultActivity1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_result1)
+
+        // 톤에 따라 다른 액티비티 띄움
+        var tone = intent.getStringExtra("tone")
+        when(tone){
+            "spring" -> setContentView(R.layout.activity_result1)
+            "summer" -> setContentView(R.layout.activity_result2)
+            "fall" -> setContentView(R.layout.activity_result3)
+            "winter" -> setContentView(R.layout.activity_result4)
+        }
+//        setContentView(R.layout.activity_result1)
 
         // Intent로부터 Bitmap 수신
         faceCropBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -36,6 +47,23 @@ class ResultActivity1 : AppCompatActivity() {
         val questionButton: ImageButton = findViewById(R.id.questionButton)
         questionButton.setOnClickListener {
             showPopup()
+        }
+
+        // 다시하기 버튼
+        val retryButton: Button = findViewById(R.id.retryButton)
+        retryButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            // 모든 이전 액티비티를 종료하고 새로 시작
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
+
+        // 나가기 버튼
+        val exitButton: Button = findViewById(R.id.exitButton)
+        exitButton.setOnClickListener {
+            finishAffinity() // 현재 액티비티 및 모든 부모 액티비티를 종료
+            System.exit(0) // 앱 프로세스 종료
         }
     }
 

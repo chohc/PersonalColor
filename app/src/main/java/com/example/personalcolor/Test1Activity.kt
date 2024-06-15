@@ -81,7 +81,7 @@ class Test1Activity : BaseActivity() {
         interpreter = Interpreter(loadModelFile("coolwarm_cnn_model.tflite"))
 
         // 가이드라인 이미지 보여주기
-        binding.imageView.setImageResource(R.drawable.guideline1)
+        binding.imageView.setImageResource(R.drawable.guideline_final)
 
         // 1. 외부저장소 권한이 있는지 확인
         requirePermission(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
@@ -286,13 +286,19 @@ class Test1Activity : BaseActivity() {
                     var bottom = (faceRect.bottom + padding).coerceAtMost(resizedBitmap.height) + 5
 
                     // 조정된 경계 상자를 사용하여 얼굴 부분 크롭
-                    val croppedBitmap = Bitmap.createBitmap(
-                        resizedBitmap,
-                        left,
-                        top,
-                        right - left,
-                        bottom - top
-                    )
+//                    val croppedBitmap = Bitmap.createBitmap(
+//                        resizedBitmap,
+//                        left,
+//                        top,
+//                        right - left,
+//                        bottom - top
+//                    )
+                    // 유효한 크기로 잘라내기
+                    val croppedBitmap = if (right > left && bottom > top) {
+                        Bitmap.createBitmap(resizedBitmap, left, top, right - left, bottom - top)
+                    } else {
+                        Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+                    }
 
                     // YCbCr 마스크 적용
                     val ycbcrMaskedImage = applyYCbCrMask(croppedBitmap)
@@ -307,13 +313,20 @@ class Test1Activity : BaseActivity() {
                     bottom = (faceRect.bottom + paddingVertical + 5).coerceAtMost(resizedBitmap.height) + 5
 
                     // 조정된 경계 상자를 사용하여 얼굴 부분 크롭
-                    val croppedBitmap2 = Bitmap.createBitmap(
-                        resizedBitmap,
-                        left,
-                        top,
-                        right - left,
-                        bottom - top
-                    )
+//                    val croppedBitmap2 = Bitmap.createBitmap(
+//                        resizedBitmap,
+//                        left,
+//                        top,
+//                        right - left,
+//                        bottom - top
+//                    )
+
+                    // 유효한 크기로 잘라내기
+                    val croppedBitmap2 = if (right > left && bottom > top) {
+                        Bitmap.createBitmap(resizedBitmap, left, top, right - left, bottom - top)
+                    } else {
+                        Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+                    }
 
                     // 인텐트로 넘길 크롭 이미지
                     faceCropBitmap = croppedBitmap2
@@ -322,7 +335,7 @@ class Test1Activity : BaseActivity() {
                     callback(ycbcrMaskedImage)
                 } else {
                     // 얼굴이 감지되지 않았을 때 처리
-                    Toast.makeText(this, "No face detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "얼굴 인식 실패, 다른 사진을 올려주세요", Toast.LENGTH_SHORT).show()
                     callback(Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888))
                 }
             }

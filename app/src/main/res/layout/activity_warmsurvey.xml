@@ -14,7 +14,7 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="20dp"
         android:text="2. 설문 검사"
         android:textSize="24sp"
@@ -53,7 +53,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         android:text="2. 당신의 머리카락 색은?" />
 
@@ -83,7 +83,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:text="3. 당신의 눈동자 색은?" />
 
     <RadioGroup
@@ -112,7 +112,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:text="4. 당신의 이미지는?" />
 
     <RadioGroup
@@ -141,7 +141,7 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:text="5. 어떤 색이 가장 잘 어울리나요?" />
 
     <RadioGroup
@@ -201,8 +201,8 @@
 
         <ImageButton
             android:id="@+id/goTest2Button"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:background="#00FFFFFF"

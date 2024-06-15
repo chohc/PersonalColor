@@ -117,7 +117,7 @@ class Test2Activity : AppCompatActivity() {
     }
 
     fun showCoolResultActivity() {
-        val intent = Intent(this, ResultActivity::class.java)
+        val intent = Intent(this, ResultActivity1::class.java)
         val tone = if (summer > winter) "summer" else "winter"
         intent.putExtra("tone", tone)
         startActivity(intent)

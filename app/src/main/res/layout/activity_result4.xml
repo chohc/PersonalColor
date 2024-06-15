@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/small_spring"
+    android:background="@drawable/small_winter"
     android:gravity="bottom"
     tools:context=".ResultActivity1">
 
@@ -53,7 +53,7 @@
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="3dp"
                 android:layout_weight="1"
-                android:background="#EB7986" />
+                android:background="#E2007E" />
 
             <View
                 android:id="@+id/color2"
@@ -61,7 +61,7 @@
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="3dp"
                 android:layout_weight="1"
-                android:background="#FFEB54" />
+                android:background="#F6F801" />
 
             <View
                 android:id="@+id/color3"
@@ -69,7 +69,7 @@
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="3dp"
                 android:layout_weight="1"
-                android:background="#A9CE5B" />
+                android:background="#006D3C" />
         </LinearLayout>
 
         <LinearLayout
@@ -84,7 +84,7 @@
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="3dp"
                 android:layout_weight="1"
-                android:background="#7AC8E2" />
+                android:background="#00469B" />
 
             <View
                 android:id="@+id/color5"
@@ -92,7 +92,7 @@
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="3dp"
                 android:layout_weight="1"
-                android:background="#E5C789" />
+                android:background="#C8C8C8" />
 
             <View
                 android:id="@+id/color6"
@@ -100,7 +100,7 @@
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="3dp"
                 android:layout_weight="1"
-                android:background="#905126" />
+                android:background="#88888A" />
 
         </LinearLayout>
 
@@ -127,7 +127,7 @@
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/seleb_rect"
                 android:padding="10dp"
-                android:text=" 아이유, 유인나, 송혜교, 윤아"
+                android:text=" 카리나, 선미, 김혜수, 서예지"
                 android:textColor="#2C5970"
                 android:textSize="18sp"
                 android:textStyle="bold" />

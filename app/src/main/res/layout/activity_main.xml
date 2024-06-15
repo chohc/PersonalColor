@@ -5,15 +5,15 @@
     android:id="@+id/imagePreview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_final"
+    android:background="@drawable/main_realfinal"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/startButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
-        android:backgroundTint="#A0950D"
+        android:layout_marginBottom="50dp"
+        android:backgroundTint="#2C5970"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:text="Start"
