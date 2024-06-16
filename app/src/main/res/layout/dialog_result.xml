@@ -20,7 +20,7 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example"
+        android:text="추천 컬러 예시"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,14 +51,15 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- ImageView 2 -->
+
     <ImageView
         android:id="@+id/imageView2_dialog"
         android:layout_width="113dp"
         android:layout_height="200dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView1_dialog"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/test_person" />
 
     <ImageView
@@ -75,15 +76,15 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- ImageView 3 -->
+
     <ImageView
         android:id="@+id/imageView3_dialog"
         android:layout_width="113dp"
         android:layout_height="200dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/imageView1_dialog"
         app:srcCompat="@drawable/test_person" />
 
     <ImageView
@@ -100,15 +101,15 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- ImageView 4 -->
+
     <ImageView
         android:id="@+id/imageView4_dialog"
         android:layout_width="113dp"
         android:layout_height="200dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2_dialog"
         app:srcCompat="@drawable/test_person" />
 
     <ImageView
@@ -125,14 +126,16 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- ImageView 5 -->
+
     <ImageView
         android:id="@+id/imageView5_dialog"
         android:layout_width="113dp"
         android:layout_height="200dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6_dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3_dialog"
         app:srcCompat="@drawable/test_person" />
 
     <ImageView
@@ -149,14 +152,16 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- ImageView 6 -->
+
     <ImageView
         android:id="@+id/imageView6_dialog"
         android:layout_width="113dp"
         android:layout_height="200dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4_dialog"
         app:srcCompat="@drawable/test_person" />
 
     <ImageView

@@ -4,9 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class Test2Activity : AppCompatActivity() {
@@ -38,8 +36,8 @@ class Test2Activity : AppCompatActivity() {
 
         // 프로그레스 바 설정
         progressBar = findViewById(R.id.progressBar)
-        progressBar.max = 4  // 프로그레스 바의 최대값을 4로 설정합니다.
-        progressBar.progress = 1  // 초기 프로그레스 값은 1입니다.
+        progressBar.max = 4  // 프로그레스 바의 최대값을 4로 설정
+        progressBar.progress = 1  // 초기 프로그레스 값은 1로 설정
 
         // Intent에서 값을 받음
         spring = intent.getIntExtra("spring", -1)
@@ -58,11 +56,13 @@ class Test2Activity : AppCompatActivity() {
     }
 
     private fun showFragment(index: Int) {
+        // spring 값이 -1보다 크다면(WarmSurveyActivity에서 넘어왔다면) warmFragment 보여주기
         if (spring > -1) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, warmFragments[index])
                 .commit()
         }
+        // 그렇지 않다면 (CoolSurveyActivity에서 넘어왔다면) coolFragment 보여주기
         else {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, coolFragments[index])
@@ -71,6 +71,7 @@ class Test2Activity : AppCompatActivity() {
     }
 
     fun updateSpringFall(isSpringSelected: Boolean) {
+        // 선택한 이미지에 따라 spring 또는 fall 값 증가
         if (isSpringSelected) {
             spring++
         } else {
@@ -81,12 +82,15 @@ class Test2Activity : AppCompatActivity() {
         if (currentFragmentIndex < warmFragments.size - 1) {
             currentFragmentIndex++
             showFragment(currentFragmentIndex)
-        } else {
+        }
+        // 마지막 선택이었다면 결과 보여주기
+        else {
             showWarmResultActivity()
         }
     }
 
     fun updateSummerWinter(isSpringSelected: Boolean) {
+        // 선택한 이미지에 따라 summer 또는 winter 값 증가
         if (isSpringSelected) {
             summer++
         } else {
@@ -97,12 +101,14 @@ class Test2Activity : AppCompatActivity() {
         if (currentFragmentIndex < coolFragments.size - 1) {
             currentFragmentIndex++
             showFragment(currentFragmentIndex)
-        } else {
+        }
+        // 마지막 선택이었다면 결과 보여주기
+        else {
             showCoolResultActivity()
         }
     }
 
-    fun showWarmResultActivity() {
+    private fun showWarmResultActivity() {
         val intent = Intent(this, ResultActivity1::class.java)
 
         // 봄웜톤인지 가을웜톤인지 값 전달
@@ -116,15 +122,22 @@ class Test2Activity : AppCompatActivity() {
         finish()
     }
 
-    fun showCoolResultActivity() {
+    private fun showCoolResultActivity() {
         val intent = Intent(this, ResultActivity1::class.java)
+
+        // 여름쿨톤인지 겨울쿨톤인지 값 전달
         val tone = if (summer > winter) "summer" else "winter"
         intent.putExtra("tone", tone)
+
+        // 사진 bitmap 전달
+        intent.putExtra("bitmap", faceCropBitmap)
+
         startActivity(intent)
         finish()
     }
 
     fun updateProgressBar(progress: Int) {
-        progressBar.progress = progress  // 주어진 값으로 프로그레스를 설정합니다.
+        // 주어진 값으로 프로그레스 바 설정
+        progressBar.progress = progress
     }
 }
