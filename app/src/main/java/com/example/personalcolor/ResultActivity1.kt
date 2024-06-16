@@ -90,7 +90,7 @@ class ResultActivity1 : AppCompatActivity() {
         }
 
         // 색상 뷰를 가져오기
-        val colorView1 = findViewById<View>(R.id.colo1)
+        val colorView1 = findViewById<View>(R.id.color1)
         val colorView2 = findViewById<View>(R.id.color2)
         val colorView3 = findViewById<View>(R.id.color3)
         val colorView4 = findViewById<View>(R.id.color4)
